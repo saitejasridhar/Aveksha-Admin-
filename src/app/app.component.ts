@@ -21,6 +21,7 @@ export class AppComponent {
     }
   }
 
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (event.target.innerWidth < 768) {

@@ -3,8 +3,15 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { AudtionService } from './../../shared/audtion.service';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators,FormControl } from "@angular/forms";
 import { finalize } from "rxjs/operators";
+import { Audtion } from 'src/app/shared/audtion';
+import {NgForm} from '@angular/forms';
+import { ToolbarService, LinkService, ImageService, HtmlEditorService, RichTextEditorComponent } from '@syncfusion/ej2-angular-richtexteditor';
+import { from } from 'rxjs';
+import {ThemePalette} from '@angular/material/core';
+import {ProgressSpinnerMode} from '@angular/material/progress-spinner';
+
 
 
 export interface Language {
@@ -17,24 +24,35 @@ export interface Language {
   styleUrls: ['./add-book.component.css']
 })
 export class AddBookComponent implements OnInit {
+
+  loading: boolean = true;
+
+  
+
+  
+  @ViewChild('fromRTE')
+    private rteEle: RichTextEditorComponent;
+    public value: string = null;
+      rteCreated(): void {
+        this.rteEle.element.focus();
+    }
+    
   imgSrc: string='/assets/img/image_placeholder.jpg'
   selectedImage: any = null;
 
+  display = false;
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   languageArray: Language[] = [];
-  @ViewChild('chipList') chipList;
-  @ViewChild('resetBookForm') myNgForm;
+  @ViewChild('chipList') chipList: any;
+  @ViewChild('resetBookForm') myNgForm: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedBindingType: string;
   bookForm: FormGroup;
 
-  ngOnInit() { 
-    this.bookApi.GetAudtionList();
-    this.submitBookForm();
-  }
+
 
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -49,11 +67,20 @@ export class AddBookComponent implements OnInit {
     }
   }
 
+
   constructor(
     public fb: FormBuilder,
     private bookApi: AudtionService,
-    private storage: AngularFireStorage,
+    private storage: AngularFireStorage
   ) { }
+
+
+
+  
+  ngOnInit(): void {
+  this.bookApi.GetAudtionList();
+  this.submitBookForm();
+    }
 
 
 
@@ -62,9 +89,9 @@ export class AddBookComponent implements OnInit {
     this.bookForm = this.fb.group({
       atitle: ['', [Validators.required]],
       adate: ['', [Validators.required]],
-      atime: ['', [Validators.required]],
       aimage:['',[Validators.required]],
       adesc: ['', [Validators.required]],
+      adesc1: [''],
     })
   }
 
@@ -75,12 +102,16 @@ export class AddBookComponent implements OnInit {
 
   
   /* Date */
-  formatDate(e) {
-    var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
-    this.bookForm.get('adate').setValue(convertDate, {
+  formatDate(e: { target: { value: string | number | Date; }; }) {
+    var convertDate = new Date(e.target.value);
+    var str;
+    str = new Date(convertDate.getTime() + (1000 * 60 * 60 * 24)).toISOString().substr(0,10);
+    this.bookForm.get('adate').setValue(str, {
       onlyself: true
     })
   }
+
+
 
   /* Reset form */
   resetForm() {
@@ -93,15 +124,22 @@ export class AddBookComponent implements OnInit {
   }
 
   /* Submit book */
-  submitBook(formValue) {
+  submitBook(formValue: Audtion,form:NgForm) {
     if (this.bookForm.valid){
+
+      this.display = true;
       var filePath=`audition/${this.selectedImage.name}`;
       const fileRef = this.storage.ref(filePath);
       this.storage.upload(filePath,this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             formValue['aimage'] = url;
-            this.bookApi.AddAudtion(formValue);       
+            formValue['adesc1']=form.value.name.toString();
+            this.bookApi.AddAudtion(formValue); 
+            this.display = false;
+            location.reload();
+            alert("Upload Succsessfull");
+
           })
         })
       ).subscribe();

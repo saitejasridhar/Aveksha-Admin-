@@ -17,7 +17,7 @@ export class AudtionService {
     this.booksRef.push({
      atitle: audtion.atitle,
      adesc: audtion.adesc,
-     atime: audtion.atime,
+     adesc1: audtion.adesc1,
      adate:audtion.adate,
      aimage:audtion.aimage
     })
@@ -43,7 +43,7 @@ export class AudtionService {
     this.bookRef.update({
         atitle: audtion.atitle,
         adesc: audtion.adesc,
-        atime: audtion.atime,
+        adesc1: audtion.adesc1,
         adate:audtion.adate,
         aimage:audtion.aimage
     })

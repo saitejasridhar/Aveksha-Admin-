@@ -1,12 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
+
 
 import { AppComponent } from './app.component';
 import { AddBookComponent } from './components/add-book/add-book.component';
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 import { BookListComponent } from './components/book-list/book-list.component';
+import {MatProgressSpinnerModule} from '@angular/material';
 
+const Materialcomponents=[
+  MatProgressSpinnerModule
+]
 
 /* Angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,10 +30,7 @@ import { AudtionService } from './shared/audtion.service';
 
 /* Reactive form services in Angular 7 */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddEventComponent } from './components/add-event/add-event.component';
-import { EventListComponent } from './components/event-list/event-list.component';
-import { EditEventComponent } from './components/edit-event/edit-event.component';
-import { UserListComponent } from './components/user-list/user-list.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -36,14 +38,12 @@ import { UserListComponent } from './components/user-list/user-list.component';
     AddBookComponent,
     EditBookComponent,
     BookListComponent,
-    AddEventComponent,
-    EventListComponent,
-    EditEventComponent,
-    UserListComponent
-
+    SpinnerComponent,
+    
   ],
   imports: [
-    BrowserModule,
+    RichTextEditorAllModule,
+      BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,

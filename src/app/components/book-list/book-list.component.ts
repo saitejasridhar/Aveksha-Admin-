@@ -10,6 +10,7 @@ import { AudtionService } from './../../shared/audtion.service';
 })
 
 export class BookListComponent {
+  display = false;
   
   dataSource: MatTableDataSource<Audtion>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -18,7 +19,6 @@ export class BookListComponent {
     '$key',
     'atitle', 
     'adate',
-    'atime',
     'adesc',
     'action'
   ];
@@ -43,10 +43,14 @@ export class BookListComponent {
   /* Delete */
   deleteBook(index: number, e){
     if(window.confirm('Are you sure?')) {
+      this.display = true;
       const data = this.dataSource.data;
       data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
       this.dataSource.data = data;
       this.bookApi.DeleteAudtion(e.$key)
+        window.location.reload();
+     
+
     }
   }
   

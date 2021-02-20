@@ -4,5 +4,5 @@ export class Audtion{
   adate:Date;
   aimage:String;
   adesc:String;
-  atime:String;
+  adesc1:String;
 }

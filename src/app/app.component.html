@@ -12,27 +12,18 @@
     [fixedTopGap]>
     <mat-nav-list>
       <a mat-list-item routerLinkActive="active" routerLink="/add-book">
-        <mat-icon>add</mat-icon> Post Audition
+        <mat-icon>add</mat-icon> Add Blog 
       </a>
       <a mat-list-item routerLinkActive="active" routerLink="/books-list">
-        <mat-icon>format_list_bulleted</mat-icon> Posted Auditions
+        <mat-icon>format_list_bulleted</mat-icon> View Blogs
       </a>
-      <a mat-list-item routerLinkActive="active" routerLink="/add-event">
-        <mat-icon>add</mat-icon> Post Event
-      </a>
-      <a mat-list-item routerLinkActive="active" routerLink="/event-list">
-        <mat-icon>format_list_bulleted</mat-icon> Posted Events
-      </a>
-
-      <a mat-list-item routerLinkActive="active" routerLink="/user-list">
-        <mat-icon>question_answer</mat-icon> View Reviews
-      </a>
-      
     </mat-nav-list>
   </mat-sidenav>
+
 
   <!-- Main content -->
   <mat-sidenav-content>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
+

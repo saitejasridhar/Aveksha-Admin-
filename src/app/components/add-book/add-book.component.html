@@ -1,38 +1,80 @@
  <!-- Title group  -->
+ <div>
+
+
  <div class="title-group">
-   <h1 class="mat-h1">Add Audition</h1>
+   <h1 class="mat-h1">Add Blog</h1>
    <mat-divider fxFlex="1 0"></mat-divider>
  </div>
 
+
  <!-- Post form -->
  <div class="inner-wrapper">
-   <form [formGroup]="bookForm" (ngSubmit)="submitBook(bookForm.value)" #resetBookForm="ngForm" novalidate>
+   <form [formGroup]="bookForm" (ngSubmit)="submitBook(bookForm.value,rteForm)" #resetBookForm="ngForm" novalidate>
      <!-- Left block -->
      <mat-card>
        <div class="controlers-wrapper">
          <!-- Post name -->
          <mat-form-field class="example-full-width">
-           <input matInput placeholder="Audtion title" formControlName="atitle">
+           <input matInput placeholder="Blog title" formControlName="atitle">
            <mat-error *ngIf="handleError('atitle', 'required')">
              You must provide a<strong> title</strong>
            </mat-error>
          </mat-form-field>
 
 
-         <!-- Location -->
-         <mat-form-field class="example-full-width">
-           <input matInput placeholder="Description" formControlName="adesc">
-           <mat-error *ngIf="handleError('adesc', 'required')">
-             You must provide an <strong>a description</strong>
-           </mat-error>
-         </mat-form-field>
+       
 
-         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Time" formControlName="atime">
-          <mat-error *ngIf="handleError('atime', 'required')">
-            You must provide<strong> time</strong>
+          
+      
+
+         <mat-form-field appearance="fill" class="example-full-width" >
+          <mat-label>Breif Description</mat-label>
+          <textarea id="et" cols="500" rows="6" matInput formControlName="adesc"></textarea>
+          <mat-error *ngIf="handleError('adesc', 'required')">
+            You must provide an <strong>a description</strong>
           </mat-error>
         </mat-form-field>
+
+        <div id="comp-render" *ngIf="display">
+          <app-spinner></app-spinner>
+        </div>
+
+        <div>
+          Description
+        </div>
+
+        <div>
+        <div>
+          <div id='content' class='box-form' style="margin: 0 auto; max-width:750px; padding:25px">
+              <form (ngSubmit)="onSubmit(rteForm)" #rteForm="ngForm">
+                  <div class="form-group">
+                      <ejs-richtexteditor  #fromRTE #name='ngModel' [(value)]='value' required name="name" [(ngModel)]="value"
+                          (created)="rteCreated()"></ejs-richtexteditor>
+                      <div *ngIf="(name.invalid && name.touched)" class="alert alert-danger">
+                          <div *ngIf="name.errors.required">
+                              Value is required.
+                          </div>
+                      </div>
+                  </div>
+              
+              </form>
+          </div>
+      </div>
+      <style>
+          .alert-danger {
+              color: #a94442;
+              background-color: #f2dede;
+              border-color: #ebccd1;
+          }
+        #btn-container {
+          margin-top: 10px;
+        }
+      </style>
+         
+       </div>
+
+      
 
          <!-- Event date -->
          <mat-form-field>
@@ -41,7 +83,7 @@
            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
            <mat-datepicker #picker></mat-datepicker>
            <mat-error *ngIf="handleError('adate', 'required')">
-             Audtion date is required
+             Blog date is required
            </mat-error>
          </mat-form-field>
        </div>
@@ -58,19 +100,24 @@
          <label>Select file to upload</label>
          <input type="file" formControlName="aimage" #fileUploader (change)="showPreview($event)">
          <mat-error *ngIf="handleError('aimage', 'required')">
-          You must provide a<strong> audition image</strong>
+          You must provide a<strong> Blog image</strong>
         </mat-error>
        </div>
      </mat-card>
 
+   
      <!-- Submit & Reset -->
      <mat-card>
        <div class="full-wrapper button-wrapper">
          <div class="button-wrapper">
-           <button mat-flat-button color="warn">Submit</button>
-           <button mat-flat-button color="war" (click)="resetForm()">Clear</button>
+           <button mat-flat-button color="warn" type="submit" >Submit</button>
+           <button mat-flat-button color="war" type="reset"  (click)="resetForm()">Clear</button>
          </div>
        </div>
      </mat-card>
    </form>
  </div>
+
+</div>
+    
+
